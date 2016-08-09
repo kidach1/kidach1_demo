@@ -19,18 +19,25 @@ public class Enemy : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		// ターゲットの方向を向く
-		transform.LookAt(target.transform);
+					// ターゲットの方向を向く
+					transform.LookAt(target.transform);
 
-		shotInterval += Time.deltaTime;
+//		if (Vector3.Distance (target.transform.position, transform.position) <= 30) {
+//
+//			// スムーズにターゲットの方向を向く
+//			Quaternion targetRotation = Quaternion.LookRotation(target.transform.position - transform.position);
+//			transform.rotation = Quaternion.Slerp (transform.rotation, targetRotation, Time.deltaTime * 10);
 
-		if (shotInterval > shotIntervalMax) {
+			shotInterval += Time.deltaTime;
 
-			Debug.Log("self: " + transform.position);
-			Debug.Log ("target: " + target.transform.position);
+			if (shotInterval > shotIntervalMax) {
 
-			Instantiate (shot, enemyMuzzle.transform.position, transform.rotation);
-			shotInterval = 0;
-		}
+				Debug.Log("self: " + transform.position);
+				Debug.Log ("target: " + target.transform.position);
+
+				Instantiate (shot, transform.position, transform.rotation);
+				shotInterval = 0;
+			}
+//		}
 	}
 }
