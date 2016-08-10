@@ -33,6 +33,12 @@ public class LockOn : MonoBehaviour {
 
 			// LookAtの際、XやZ軸もtargetの方向を向いてしまうのを補正
 			transform.rotation = new Quaternion (0, transform.rotation.y, 0, transform.rotation.w);
+
+			// カメラをターゲットに向ける
+			Transform cameraParent = Camera.main.transform.parent;
+			Quaternion targetRotation2 = Quaternion.LookRotation (target.transform.position - cameraParent.position);
+			cameraParent.localRotation = Quaternion.Slerp (cameraParent.localRotation, targetRotation2, Time.deltaTime * 10);
+			cameraParent.localRotation = new Quaternion (cameraParent.localRotation.x, 0, 0, cameraParent.localRotation.w);
 		}
 	}
 }
