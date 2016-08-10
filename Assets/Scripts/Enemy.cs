@@ -49,7 +49,8 @@ public class Enemy : MonoBehaviour {
 		if (collider.gameObject.tag == "Shot") {
 
 			// ダメージをランダムで変える
-			damage = Random.Range (50, 150);
+			damage = collider.gameObject.GetComponent<ShotPlayer>().damage;
+
 			armorPoint -= damage;
 			if (armorPoint <= 0) {
 				Destroy (gameObject);
