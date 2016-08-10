@@ -17,7 +17,16 @@ public class LockOn : MonoBehaviour {
 				target = null;
 			} else {
 				// ターゲットを取得する
-				target = GameObject.FindWithTag("Enemy");
+//				target = GameObject.FindWithTag("Enemy");
+				target = FindClosestEnemy();
+			}
+
+			if (target != null) {
+				Debug.Log ("Remove Lock!");
+				// 距離が離れたらロックを解除する
+				if (Vector3.Distance (target.transform.position, transform.position) > 100) {
+					target = null;
+				}
 			}
 		}
 
@@ -40,5 +49,40 @@ public class LockOn : MonoBehaviour {
 			cameraParent.localRotation = Quaternion.Slerp (cameraParent.localRotation, targetRotation2, Time.deltaTime * 10);
 			cameraParent.localRotation = new Quaternion (cameraParent.localRotation.x, 0, 0, cameraParent.localRotation.w);
 		}
+	}
+
+	// 一番近い敵を探して取得
+	GameObject FindClosestEnemy() {
+		GameObject[] gos;
+		// Enemyタグのついたシーン内のすべてのオブジェクトをリスト化
+		gos = GameObject.FindGameObjectsWithTag ("Enemy");
+		GameObject closest = null;
+
+		float distance = Mathf.Infinity;
+		Vector3 position = transform.position;
+
+		foreach (GameObject go in gos) {
+			// Enemy一体(go)と自分の距離
+			Vector3 diff = go.transform.position - position;
+			// .sqrMagnitudeでベクトルの大きさ（＝長さ＝距離）を取得
+			float curDistance = diff.sqrMagnitude;
+
+			// curDistanceが、比較済みの他のgoとの距離より近ければ、最も近いと判定。
+			if (curDistance < distance) {
+				closest = go;
+				distance = curDistance;
+			}
+		}
+
+		if (closest != null) {
+			Debug.Log ("not need Lock!");
+
+			// 一番近くの敵がロックオン範囲外ならロックしない
+			if (Vector3.Distance (closest.transform.position, transform.position) > 100) {
+				closest = null;
+			}
+		}
+
+		return closest;
 	}
 }

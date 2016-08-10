@@ -19,7 +19,7 @@ public class ShotEnemy : MonoBehaviour {
 
 	// 他のオブジェクトと衝突した時に呼ばれるメソッド
 	private void OnCollisionEnter(Collision collider) {
-		Debug.Log ("collision!" + collider.gameObject.tag);
+//		Debug.Log ("collision!" + collider.gameObject.tag);
 		if (collider.gameObject.tag == "Player" || collider.gameObject.name == "Terrain") {
 			Destroy (gameObject);
 			Instantiate (explosion, transform.position, transform.rotation);
