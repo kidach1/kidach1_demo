@@ -10,34 +10,48 @@ public class Enemy : MonoBehaviour {
 	float shotInterval = 0;
 	float shotIntervalMax = 1.0f;
 
+	public GameObject exprosion;
+
+	public int armorPoint;
+	public int armorPointMax = 1000;
+	int damage = 100;
 
 	// Use this for initialization
 	void Start () {
 		// ターゲットを取得
 		target = GameObject.Find("PlayerTarget");
+
+		armorPoint = armorPointMax;
 	}
 	
 	// Update is called once per frame
 	void Update () {
-					// ターゲットの方向を向く
-					transform.LookAt(target.transform);
 
-//		if (Vector3.Distance (target.transform.position, transform.position) <= 30) {
-//
-//			// スムーズにターゲットの方向を向く
-//			Quaternion targetRotation = Quaternion.LookRotation(target.transform.position - transform.position);
-//			transform.rotation = Quaternion.Slerp (transform.rotation, targetRotation, Time.deltaTime * 10);
+		if (Vector3.Distance (target.transform.position, transform.position) <= 150) {
+			// ターゲットの方向を向く
+//			transform.LookAt(target.transform);
+
+			// スムーズにターゲットの方向を向く
+			Quaternion targetRotation = Quaternion.LookRotation(target.transform.position - transform.position);
+			transform.rotation = Quaternion.Slerp (transform.rotation, targetRotation, Time.deltaTime * 10);
 
 			shotInterval += Time.deltaTime;
 
 			if (shotInterval > shotIntervalMax) {
-
-				Debug.Log("self: " + transform.position);
-				Debug.Log ("target: " + target.transform.position);
-
 				Instantiate (shot, transform.position, transform.rotation);
 				shotInterval = 0;
 			}
-//		}
+		}
+	}
+
+	private void OnCollisionEnter(Collision collider) {
+		// プレイヤーの弾と衝突したら消滅
+		if (collider.gameObject.tag == "Shot") {
+			armorPoint -= damage;
+			if (armorPoint <= 0) {
+				Destroy (gameObject);
+				Instantiate (exprosion, transform.position, transform.rotation);
+			}
+		}
 	}
 }
