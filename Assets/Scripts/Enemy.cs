@@ -47,6 +47,9 @@ public class Enemy : MonoBehaviour {
 	private void OnCollisionEnter(Collision collider) {
 		// プレイヤーの弾と衝突したら消滅
 		if (collider.gameObject.tag == "Shot") {
+
+			// ダメージをランダムで変える
+			damage = Random.Range (50, 150);
 			armorPoint -= damage;
 			if (armorPoint <= 0) {
 				Destroy (gameObject);
