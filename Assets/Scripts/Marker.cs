@@ -9,8 +9,13 @@ public class Marker : MonoBehaviour {
 	public Image markerImage;
 	GameObject compass;
 
+	GameObject target;
+
 	// Use this for initialization
 	void Start () {
+
+		target = GameObject.Find ("PlayerTarget");
+
 		// マーカーをレーダー（コンパス）上に表示する処理
 		// コンパス取得
 		compass = GameObject.Find("Compass");
@@ -22,6 +27,8 @@ public class Marker : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-	
+		// マーカーをプレイヤーの相対位置に配置
+		Vector3 position = transform.position - target.transform.position;
+		marker.transform.localPosition = new Vector3 (position.x, position.z, 0);
 	}
 }
