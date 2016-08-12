@@ -10,13 +10,13 @@ public class ShotPlayer : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		// 出現後一定時間で自動的に消滅させる
-		Destroy(gameObject, 2.0F);
+		Destroy(gameObject, 2.5F);
 	}
 	
 	// Update is called once per frame
 	void Update () {
 		// 弾を前進させる
-		transform.position += transform.forward * Time.deltaTime * 100;
+		transform.position += transform.forward * Time.deltaTime * 200;
 
 		// 威力減衰。最小でも1ダメージは与える
 		damage--;

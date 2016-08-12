@@ -17,7 +17,7 @@ public class PlayerRotate : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		// プレイヤーを回転
-		transform.Rotate(0, Input.GetAxis("Horizontal2"), 0);
+		transform.Rotate(0, Input.GetAxis("Horizontal2")/10, 0);
 
 		// カメラの親オブジェクトの回転
 		CameraParent.transform.Rotate(Input.GetAxis("Vertical2"), 0, 0);
